@@ -14,7 +14,7 @@ urlpatterns = [
     url(r'^hiddenposts/', include("hiddenforum.urls",namespace = 'hiddenposts')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
-    url(r'^messages/', include('django_messages.urls')),
+    url(r'^messages/', include('projection_messages.urls')),
     url(r'^categories/', 'openedprojects.views.categories', name = 'categories'),
     url(r'^category/(?P<category_name_slug>[\w\-]+)/', "openedprojects.views.show_category", name = 'posts'),
 

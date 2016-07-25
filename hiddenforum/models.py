@@ -12,6 +12,9 @@ from comments.models import Comment
 
 # Create your models here.
 # MVC MODEL VIEW CONTROLLER
+class UserData():
+	name = "default"
+	email = "default" 
 
 def upload_location(instance, filename):
 	return "%s/%s" %(instance.id, filename)
@@ -98,5 +101,3 @@ def pre_save_post_receiver(sender, instance, *args, **kwargs):
 		instance.slug = create_slug(instance)
 
 pre_save.connect(pre_save_post_receiver, sender = HiddenPost)
-
-
