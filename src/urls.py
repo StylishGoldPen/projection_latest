@@ -11,7 +11,7 @@ urlpatterns = [
     url(r'^contact/$', 'newsletter.views.contact', name='contact'),
     url(r'^about/$', 'src.views.about', name='about'),
     # url(r'^blog/', include('blog.urls')),
-
+    url(r'^hiddenposts/', include("hiddenforum.urls",namespace = 'hiddenposts')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('registration.backends.default.urls')),
     url(r'^messages/', include('django_messages.urls')),
@@ -23,6 +23,7 @@ urlpatterns = [
     
     url(r'^closedprojects/','closedprojects.views.closedgenres', name='closedgenres'),
     url(r'^closed_subcategories/','closedprojects.views.closed_subcategories', name='closed_subcategories'),
+    url(r'^involvedprojects/','involvedprojects.views.display_involved', name='involvedprojects'),
 ]
 
 if settings.DEBUG:

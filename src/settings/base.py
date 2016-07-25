@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'openedprojects',
     'closedprojects',
     'involvedprojects',
+    'hiddenforum',
     'comments',
 
 )
