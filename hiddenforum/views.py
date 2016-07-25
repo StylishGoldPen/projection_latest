@@ -154,9 +154,9 @@ def hiddenpost_create(request, slug):
 	form = HiddenPostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit = False)
-		hiddenforum = Group.objects.get_or_create(name=instance.title)
-		hiddenforum_category = HiddenForum.objects.get_or_create(name=instance.title)
-		g = Group.objects.get(name=instance.title) 
+		hiddenforum = Group.objects.get(name=instance.hiddenforum)
+		# hiddenforum_category = HiddenForum.objects.get_or_create(name=instance.title)
+		g = Group.objects.get(name=instance.hiddenforum) 
 		g.user_set.add(request.user)
 
 		instance.user = request.user
