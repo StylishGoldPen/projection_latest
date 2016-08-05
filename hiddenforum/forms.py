@@ -1,6 +1,6 @@
 from django import forms
 from pagedown.widgets import PagedownWidget
-from .models import HiddenPost
+from .models import HiddenPost, HiddenForum
 from .fields import CommaSeparatedUserField
 
 class HiddenPostForm(forms.ModelForm):

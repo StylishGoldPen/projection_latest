@@ -27,14 +27,22 @@ def kickstarter_integrate(request,slug):
 
 	print ("entered into kickstarter_integrate def")
 
-	instance = get_object_or_404(Post, slug=slug)
+	
 	slugtest = slug
 	slugtest = slugtest.replace("-", " ")
+	slugtest2 = slug.lower()
 	g = Group.objects.get(name=slugtest)
 	users = g.user_set.all()
 	
 	user_list =[]
 	
+
+	hiddenforum = HiddenForum.objects.get(name=slugtest)
+	instance = Post.objects.get(slug=slugtest2)
+	print "slugtest printed here ----------------------------------"
+	print slugtest2 
+
+
 	for user in users:
 		temp = UserData()
 		temp.name = user.username
@@ -43,11 +51,11 @@ def kickstarter_integrate(request,slug):
 
 	print user_list 
 	context={
-	'title': instance.title,
+	'title': hiddenforum.name,
 	'subcategory': instance.category,
-	'description': instance.content,
+	'description':instance.content,
 	'userlist':user_list,
-    }
+	}
 
 	return render(request,'integration_compile.html',context)
 
@@ -154,6 +162,7 @@ def hiddenpost_create(request, slug):
 	form = HiddenPostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit = False)
+		
 		hiddenforum = Group.objects.get(name=instance.hiddenforum)
 		# hiddenforum_category = HiddenForum.objects.get_or_create(name=instance.title)
 		g = Group.objects.get(name=instance.hiddenforum) 
@@ -186,14 +195,14 @@ def hiddenpost_list(request,slug):
 
 	slugtest = slug
 	slugtest = slugtest.replace("-", " ")
-	not_in_group = False
+	is_in_group = False
 	user = request.user
 
 	print slugtest
-	not_in_group = display_hidden(request,slug)
+	is_in_group = display_hidden(request,slug)
 	print ("return back to the hiddenpost_list def")
 
-	if (not_in_group==True):
+	if (is_in_group==False):
 		print ("not__in_group is True")
 		print ("slugtest back in hiddenpost_list is false")
 		context = {
@@ -237,6 +246,7 @@ def hiddenpost_list(request,slug):
 		
 	context_dict['justname'] = slug	
 	context_dict['slugtest'] = slugtest
+
 	return render(request, 'hiddenpost_list.html', context_dict)
 
 
@@ -245,26 +255,42 @@ def hiddenpost_list(request,slug):
 def display_hidden(request,slug):
 
 	slugtest = slug
-	slugtest = slugtest.replace("-", " ")
+	slugtest = slugtest.lower()
 	is_in_group = False
 	user = request.user
 
 	print ("in display_hidden function")
 	l = request.user.groups.values_list('name',flat=True)
-	print l
+	print "slugtest is here ------------------------------------------------------"
+	print slugtest
+	print ("debuglist is here")
+	debuglist = []
+	for g in request.user.groups.all():
+		print g.name
+		slugified = (g.name).lower()
+		slugified = slugified.replace(" ","-")
+		print "transformed into " + slugified
+		debuglist.append(slugified)
 
 
 
-	if user.groups.filter(name=slugtest).exists():
-		return False
+	print ("------------------------------------------------------------------------------")
+	for slugifiedname in debuglist:
+		if (slugtest == slugifiedname):
+			print slugtest + " is equal to " + slugifiedname 
+			is_in_group = True
+
+	if (is_in_group == True):
+		return True 
 	else:
-		print ("slugtest is false")
-		context = {
-		"justname": slug,
-		"slugtest": slugtest,
-		"username": request.user
-		}
-		return True
+		return False
+
+
+
+	# if user.groups.filter(name=slugtest).exists():
+	# 	return False
+	# else:
+	# 	return True
 
 	
 

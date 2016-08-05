@@ -22,9 +22,9 @@ def upload_location(instance, filename):
 
 
 class HiddenForum(models.Model):
-	name = models.CharField(max_length = 120, unique = True)
-	slug = models.SlugField()
-
+	name = models.CharField(max_length = 120)
+	user = models.ForeignKey(settings.AUTH_USER_MODEL, default = 1)
+	
 	class Meta:
 		verbose_name_plural = 'hidden Forums'
 		

@@ -26,8 +26,20 @@ def post_create(request):
 	form = PostForm(request.POST or None, request.FILES or None)
 	if form.is_valid():
 		instance = form.save(commit = False)
+		#Creating the hiddenforum under Groups dynamically 
 		hiddenforum = Group.objects.get_or_create(name=instance.title)
+		#Creating the hiddenforum under Hiddenforum dynamically
 		hiddenforum_category = HiddenForum.objects.get_or_create(name=instance.title)
+
+
+		hiddenforum_slug = (instance.title).lower() 
+		# Debugging (correct transformation from title to slug type)
+		print hiddenforum_category[0] 
+		print type(hiddenforum_category)
+		# Assigning the slug to the hiddenforum under Hiddenforum with the converted slug.
+		# hiddenforum_category.slug = hiddenforum_slug
+		# hiddenforum_category.save() 
+
 		g = Group.objects.get(name=instance.title) 
 		g.user_set.add(request.user)
 

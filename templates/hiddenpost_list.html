@@ -22,12 +22,16 @@ h1{
 {% block content %}
 
 
-<div class="well well-lg"><center><h1>[ {{ slugtest }} ]</h1></center></div>
+<div class="well well-lg"><center><h1>[ {{ slugtest }}]</h1></center>
+</div>
 
 
 
 
 <div class="btn-group col-sm-5" >
+
+{% if request.user == hiddenforum.user %}
+
 <div class="panel panel-success">
       <div class="panel-heading">Add New Collaborators</div>
       <div class="panel-body">
@@ -41,7 +45,7 @@ h1{
 </div>
 
   
-     <div class="panel panel-danger">
+<div class="panel panel-danger">
       <div class="panel-heading">Remove Collaborators</div>
       <div class="panel-body">
           <form action="/posts/{{ justname }}/hiddenforum/remove-collaborators/"  method="post">{% csrf_token %}
@@ -53,6 +57,7 @@ h1{
      <p>{{ removeerror }}</p>
  </div>
 
+{% endif %}
    <!--<div class="panel panel-default">
       <div class="panel-heading">Search</div>
       <div class="panel-body">
@@ -62,14 +67,31 @@ h1{
             </form>
       </div>
     </div>-->
-    <div >
+    
+ {% if request.user == hiddenforum.user %}
 
+  <div>
     <a href='/posts/{{ justname }}/hiddenforum/create' class="btn btn-primary pull-left" role="button">Create</a>
+   
+
+
     <a href='/posts/{{ justname }}/hiddenforum/integrate/' type="button" class="btn btn-warning" style="margin-left:30px">
     Generate KickStarter Template
     </a>
-    </div>
-    <div class="panel panel-danger" style="margin-top:40px">
+
+   
+  </div>
+
+<!--
+
+  <div class="panel panel-danger" style="margin-top:40px">
+
+    <a href='/posts/{{ justname }}/hiddenforum/create' class="btn btn-primary" role="button" style="margin-left:30px; margin-top:30px">Create</a>
+
+  </div>
+-->
+  {% endif %}
+<div class="panel panel-danger" style="margin-top:40px">
     <a href='/posts/{{ justname }}/hiddenforum/' type="button" class="btn btn-warning pull-left" style="margin-left:30px; margin-top:30px">
     Reload
     </a>
